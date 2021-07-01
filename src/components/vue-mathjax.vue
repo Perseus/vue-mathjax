@@ -17,6 +17,15 @@ export default {
       default: function () {
         return {}
       }
+    },
+    shouldQueueRender: {
+      type: Boolean,
+      default: false
+    },
+
+    renderCallback: {
+      type: Function,
+      default: () => () => null
     }
   },
   watch: {
@@ -55,11 +64,22 @@ export default {
           },
           ...this.options
         })
-        window.MathJax.Hub.Queue([
-          'Typeset',
-          window.MathJax.Hub,
-          this.$refs.mathJaxEl
-        ])
+
+        if (this.shouldQueueRender) {
+          window.MathJax.Hub.Queue([
+            'Typeset',
+            window.MathJax.Hub,
+            this.$refs.mathJaxEl
+          ])
+        } else if (window.MathJax.isReady) {
+          window.MathJax.Hub.Typeset(this.$refs.mathJaxEl, this.renderCallback)
+        } else {
+          window.MathJax.Hub.Queue([
+            'Typeset',
+            window.MathJax.Hub,
+            this.$refs.mathJaxEl
+          ])
+        }
       }
     }
   }
