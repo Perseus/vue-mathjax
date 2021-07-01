@@ -18,6 +18,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/justforuse/vue-mathjax.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --config config/webpack.config.dev.js --progress --watch",
     "build": "npm run build:browser && npm run build:common",
